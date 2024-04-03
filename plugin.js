@@ -10,6 +10,6 @@
 
 // parse lines
 
-//
+// get current note
 
-//
+// tasks to current note
