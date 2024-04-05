@@ -47,9 +47,11 @@ Note template format:
       9:30 am - eat
       4:45 pm - gym, cook dinner`;
     output:
-    ['7 am', 'wake up', 'meditate']
-    ['8 am', 'workout']
-    ['6 pm', 'dinner']
+      [
+        ["7 am", "laundry", "clean"],
+        ["9:30 am", "eat"],
+        ["4:45 pm", "gym", "cook dinner"]
+      ]
     */
 
     // Split the text into lines
