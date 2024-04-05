@@ -8,23 +8,31 @@
 //
 
 {
-  settings: {
-    sourceNoteUUID: null
-  },
 
   dailyJotOption: {
     async "Add daily tasks to current note" (app, noteHandle) {
-      // set template note
+      console.log('notehandle', noteHandle);
+      console.log('this', this);
       console.log('settings', this.settings);
-      console.log(this.settings.sourceNoteUUID);
+      console.log('app', app);
+      
+      // get note uuid
+      const templateNoteUUID = app.settings["Source note UUID"]
+      console.log('templateNoteUUID', templateNoteUUID);
+
       const templateNote = await app.findNote({
-        uuid: this.settings.sourceNoteUUID,
+        uuid: templateNoteUUID,
       });
-      console.log(templateNote);
+      console.log('templateNote', templateNote);
+
+      // get template note contents
+      let templateContents = await app.getNoteContent(templateNote);
+      console.log("template contents", templateContents);
+
+
+      //console.log(this.settings.sourceNoteUUID);
       console.log("json", JSON.stringify(templateNote));
 
-      // let templateContents = await app.getNoteContent(templateNote);
-      // console.log("template contents", templateContents);
 
       // parse content/lines
 
@@ -34,4 +42,5 @@
     }
   }
 }
+
 
