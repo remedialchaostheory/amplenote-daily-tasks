@@ -7,27 +7,31 @@
 
 //
 
-let plugin = {
+{
   settings: {
-    templateNoteUUID: null,
+    sourceNoteUUID: null
   },
 
-  dailyTasks: {
-    async "Add daily tasks to current note"(app, noteHandle) {
+  dailyJotOption: {
+    async "Add daily tasks to current note" (app, noteHandle) {
       // set template note
+      console.log('settings', this.settings);
+      console.log(this.settings.sourceNoteUUID);
       const templateNote = await app.findNote({
-        uuid: this.settings.templateNoteUUID,
+        uuid: this.settings.sourceNoteUUID,
       });
-      console.log(JSON.stringify(templateNote));
+      console.log(templateNote);
+      console.log("json", JSON.stringify(templateNote));
 
-      let templateContents = await app.getNoteContent(templateNote);
-      console.log(templateContents);
+      // let templateContents = await app.getNoteContent(templateNote);
+      // console.log("template contents", templateContents);
 
       // parse content/lines
 
       // get current note
 
       // tasks to current note
-    },
-  },
-};
+    }
+  }
+}
+
