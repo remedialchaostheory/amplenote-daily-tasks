@@ -82,6 +82,37 @@ Note template format:
 
     return schedule;
   },
+
+  /**
+ * Converts a date string of the format "April 5th, 2024 7 pm" to a Unix timestamp.
+ * This function first removes ordinal suffixes (like "st", "nd", "rd", "th") from the date string,
+ * then adjusts the time part to ensure it includes minutes for proper parsing,
+ * and finally converts the date to a Unix timestamp in seconds.
+ * 
+ * Example:
+ * Input: "April 5th, 2024 7 pm" (7:30 pm also valid)
+ * Output: Unix timestamp in seconds (e.g., 1712347200)
+ * 
+ * @param {string} dateStr - The date string to convert.
+ * @return {number} The Unix timestamp in seconds.
+ */
+  _convertDateToUnixTimestamp(dateStr) {
+    const formattedDateStr = dateStr.replace(/(st|nd|rd|th)/g, '');
+
+    // adjust time without minutes e.g "7 pm" -> "7:00 pm"
+    const adjustedDateStr = formattedDateStr.replace(/(\d+)( am| pm)/, '$1:00$2');
+
+    const date = new Date(adjustedDateStr);
+    const unixTimestamp = date.getTime() / 1000; // convert from ms to sec
+
+    // test code
+    // const dateStr = "April 5th, 2024 7 pm";
+    // const unixTimestamp = convertDateToUnixTimestamp(dateStr);
+    // console.log(unixTimestamp);
+
+    return unixTimestamp;
+  }
+
 }
 
 
