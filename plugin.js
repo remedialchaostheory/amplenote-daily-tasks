@@ -34,9 +34,28 @@ Note template format:
       const parsedSchedule = this._parseSchedule(templateContents);
       console.log("parsedSchedule", parsedSchedule);
 
-      // get current note
+      // add tasks to current note
+      // iterate backwards bc app.insertTask adds new tasks
+      // to the top of the note
+      for (let i = parsedSchedule.length - 1; i >= 0; i--) {
+        let taskItem = parsedSchedule[i];
+        console.log('taskItem[0]', taskItem[0]);
+        const completeTaskTime = noteHandle.name + " " + taskItem[0];
+        const startTime = this._convertDateToUnixTimestamp(completeTaskTime);
+        console.log('startTime', startTime);
+        // pop off task names
+        while (taskItem.length > 1) {
+          const taskName = taskItem.pop()
+          const taskUUID = await app.insertTask(noteHandle, { 
+            content: taskName, 
+            startAt: startTime
+          });
+        }
 
-      // tasks to current note
+
+      }
+
+      
     }
   },
 
@@ -46,12 +65,11 @@ Note template format:
       const text = `7 am - laundry, clean
       9:30 am - eat
       4:45 pm - gym, cook dinner`;
-    output:
-      [
-        ["7 am", "laundry", "clean"],
-        ["9:30 am", "eat"],
-        ["4:45 pm", "gym", "cook dinner"]
-      ]
+    output:[
+      ['7 am', 'wake up', 'meditate'],
+      ['8 am', 'workout'],
+      ['6 pm', 'dinner'],
+    ]
     */
 
     // Split the text into lines
@@ -82,7 +100,7 @@ Note template format:
 
     return schedule;
   },
-
+  
   /**
  * Converts a date string of the format "April 5th, 2024 7 pm" to a Unix timestamp.
  * This function first removes ordinal suffixes (like "st", "nd", "rd", "th") from the date string,
@@ -98,21 +116,24 @@ Note template format:
  */
   _convertDateToUnixTimestamp(dateStr) {
     const formattedDateStr = dateStr.replace(/(st|nd|rd|th)/g, '');
-
+    console.log('formattedDateStr', formattedDateStr)
+    
     // adjust time without minutes e.g "7 pm" -> "7:00 pm"
     const adjustedDateStr = formattedDateStr.replace(/(\d+)( am| pm)/, '$1:00$2');
+    console.log('adjustedDateStr', adjustedDateStr)
 
     const date = new Date(adjustedDateStr);
+    console.log('date', date)
+
     const unixTimestamp = date.getTime() / 1000; // convert from ms to sec
 
     // test code
     // const dateStr = "April 5th, 2024 7 pm";
     // const unixTimestamp = convertDateToUnixTimestamp(dateStr);
-    // console.log(unixTimestamp);
-
+    console.log('unixTimestamp', unixTimestamp);
+    
     return unixTimestamp;
   }
-
 }
 
 
