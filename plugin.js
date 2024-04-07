@@ -7,8 +7,6 @@ Note template format:
 
 TODO - add edge cases
 
-TODO - if line is bold, then ignore? or other identifier (e.g. "//" or "#")
-
 TODO - add custom duration for tasks (additional API access needed, however, namely "endAt" or a duration attribute to the "task object")
 */
 
@@ -16,12 +14,7 @@ TODO - add custom duration for tasks (additional API access needed, however, nam
 
   dailyJotOption: {
     async "Add daily tasks to current note"(app, noteHandle) {
-      console.log('notehandle', noteHandle);
-      console.log('this', this);
-      console.log('settings', this.settings);
-      console.log('app', app);
 
-      // get note uuid
       const templateNoteUUID = app.settings["Source note UUID"]
       console.log('templateNoteUUID', templateNoteUUID);
 
@@ -31,15 +24,13 @@ TODO - add custom duration for tasks (additional API access needed, however, nam
       console.log('templateNote', templateNote);
       console.log("json", JSON.stringify(templateNote));
 
-      // get template note contents
       let templateContents = await app.getNoteContent(templateNote);
       console.log("template contents", templateContents);
 
-      // parse content/lines
       const parsedSchedule = this._parseSchedule(templateContents);
       console.log("parsedSchedule", parsedSchedule);
 
-      // add tasks to current note
+      // add tasks to current note:
       // iterate backwards bc app.insertTask adds new tasks
       // to the top of the note
       for (let i = parsedSchedule.length - 1; i >= 0; i--) {
@@ -56,11 +47,7 @@ TODO - add custom duration for tasks (additional API access needed, however, nam
             startAt: startTime
           });
         }
-
-
       }
-
-      
     }
   },
 
@@ -82,7 +69,7 @@ TODO - add custom duration for tasks (additional API access needed, however, nam
     const timeRegex = /\b(\d{1,2}:\d{2}|\d{1,2})\s?(am|pm)?\b/i;
 
     lines.forEach(line => {
-      if (Array.from(line)[0] === "*") {
+      if (isNaN(line.charAt(0))) {
         return;
       }
 
@@ -116,14 +103,11 @@ TODO - add custom duration for tasks (additional API access needed, however, nam
  */
   _convertDateToUnixTimestamp(dateStr) {
     const formattedDateStr = dateStr.replace(/(st|nd|rd|th)/g, '');
-    console.log('formattedDateStr', formattedDateStr)
     
     // adjust time without minutes e.g "7 pm" -> "7:00 pm"
     const adjustedDateStr = formattedDateStr.replace(/(\d+)( am| pm)/, '$1:00$2');
-    console.log('adjustedDateStr', adjustedDateStr)
 
     const date = new Date(adjustedDateStr);
-    console.log('date', date)
 
     const unixTimestamp = date.getTime() / 1000; // convert from ms to sec
 
@@ -135,9 +119,3 @@ TODO - add custom duration for tasks (additional API access needed, however, nam
     return unixTimestamp;
   }
 }
-
-
-
-
-
-
