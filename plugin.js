@@ -5,6 +5,9 @@ Note template format:
 8 am - workout
 6 pm - dinner
 
+TODO - if line is bold, then ignore? or other identifier (e.g. "//" or "#")
+
+TODO - add custom duration for tasks (additional API access needed, however, namely "endAt" or a duration attribute to the "task object")
 */
 
 {
