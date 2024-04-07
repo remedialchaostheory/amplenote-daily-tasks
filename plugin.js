@@ -77,30 +77,23 @@ TODO - add custom duration for tasks (additional API access needed, however, nam
     ]
     */
 
-    // Split the text into lines
     const lines = text.split('\n');
-    // Initialize an empty array to store the parsed schedule
     let schedule = [];
-
-    // Regular expression to match the time format
     const timeRegex = /\b(\d{1,2}:\d{2}|\d{1,2})\s?(am|pm)?\b/i;
 
-    // Iterate over each line
     lines.forEach(line => {
-      // if line starts with a "*", skip
-      if ()
-      // Find the time using the regex
+      if (Array.from(line)[0] === "*") {
+        return;
+      }
+
       const timeMatch = line.match(timeRegex);
       if (timeMatch) {
-        // Extract the time from the match
         const time = timeMatch[0];
         // Remove the time from the line to isolate the tasks
         let tasksPart = line.replace(timeRegex, '').trim();
         // Remove leading characters like "- " from tasks
         tasksPart = tasksPart.replace(/^-\s*/, '');
-        // Split the tasks by comma
         const tasks = tasksPart.split(',').map(task => task.trim());
-        // Combine the time and tasks into a single array and add it to the schedule
         schedule.push([time, ...tasks]);
       }
     });
