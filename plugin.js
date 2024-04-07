@@ -5,6 +5,8 @@ Note template format:
 8 am - workout
 6 pm - dinner
 
+TODO - add edge cases
+
 TODO - if line is bold, then ignore? or other identifier (e.g. "//" or "#")
 
 TODO - add custom duration for tasks (additional API access needed, however, namely "endAt" or a duration attribute to the "task object")
@@ -85,6 +87,8 @@ TODO - add custom duration for tasks (additional API access needed, however, nam
 
     // Iterate over each line
     lines.forEach(line => {
+      // if line starts with a "*", skip
+      if ()
       // Find the time using the regex
       const timeMatch = line.match(timeRegex);
       if (timeMatch) {
