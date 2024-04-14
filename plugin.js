@@ -5,6 +5,8 @@ Note template format:
 8 am - workout
 6 pm - dinner
 
+TODO - add option to 3 dot menu of each note
+
 TODO - add edge cases
 
 TODO - add custom duration for tasks (additional API access needed, however, namely "endAt" or a duration attribute to the "task object")
